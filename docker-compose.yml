@@ -8,9 +8,18 @@ services:
     environment:
       SERVER_NAME: logstash.local
     volumes:
-      - ./logstash/logstash.conf: /urs/share/logstash/pipeline/logstash.conf
-      - ./logstash/logstash.yml: /usr/share/logstash/config/logstash.yml
-    network:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+    networks:
+      - esnet
+  filebeat:
+    container_name: filebeat
+    build:
+      context: .
+      dockerfile: filebeat.Dockerfile
+    volumes:
+      - ./logs:/var/log
+    networks:
       - esnet
   kibana:
     image: docker.elastic.co/kibana/kibana:6.8.9
@@ -33,7 +42,8 @@ services:
       memlock:
         soft: -1
         hard: -1
-    network:
+    networks:
       - esnet
 networks:
   esnet:
+    driver: bridge
