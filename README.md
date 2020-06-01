@@ -13,7 +13,7 @@ A configuration lab for deploying Elastic-Logstash-Kibana on Docker
 
 # ELK
 
-By default, the stack exposes the following ports:
+Ports used for config. :
 
 - 5044: Logstash
 - 9200: Elasticsearch
